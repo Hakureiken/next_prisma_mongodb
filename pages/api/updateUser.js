@@ -2,10 +2,13 @@ import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient()
 
-export default async function newUser(req, res) {
+export default async function updateUser(req, res) {
     if (req) {
         await prisma.$connect()
-        await prisma.user.create({
+        await prisma.user.update({
+            where : {
+                id:req.body.id
+            },
             data: {
                 first_name: req.body.first_name,
                 last_name: req.body.last_name,
@@ -18,11 +21,11 @@ export default async function newUser(req, res) {
                 isEnabled: true,
             },
         })
-        res.json(req.body)
+        res.json("Success")
     }
 }
 
-newUser().then(async() => {
+updateUser().then(async() => {
     await prisma.$disconnect()
 })
 .catch(async(e) => {
