@@ -7,15 +7,68 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  title  String
-  userId String @db.ObjectId
-  user   User   @relation(fields:[userId],references:[id])
-}
-
 model User {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
+  first_name  String
+  last_name String
+  nickname String
   email String
-  posts Post[]
+  password String
+  earning String
+  isCertified Boolean
+  isEnabled Boolean
+  isAdmin Boolean
+  parcel Parcel[]
+  chatIds String[] @db.ObjectId
+  chats Chat[] @relation(fields:[chatIds], references:[id])
+
+  userPath UserPath[]
+  message Message[]
+}
+
+// Colis
+model Parcel {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  user_id String @db.ObjectId
+  user User @relation(fields:[user_id], references:[id])
+  deliveryRequest DeliveryRequest[]
+}
+
+model Delivery {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+}
+
+model Chat {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  userIds String[] @db.ObjectId
+  users User[] @relation(fields:[userIds], references:[id])
+  message Message[]
+}
+
+model UserPath {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  user_id String @db.ObjectId
+  user User @relation(fields:[user_id], references:[id])
+  name String
+  startingPoint String
+  endPoint String
+  startingTime DateTime
+  endTime DateTime
+}
+
+model DeliveryRequest {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  parcel_id String @db.ObjectId
+  parcel Parcel @relation(fields:[parcel_id], references:[id])
+  horaire DateTime
+  isAccepted Boolean
+}
+
+model Message {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  user_id String @db.ObjectId
+  user User @relation(fields:[user_id], references:[id])
+  chat_id String @db.ObjectId
+  chat Chat @relation(fields:[chat_id], references:[id])
+  text String
 }
