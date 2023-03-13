@@ -1,0 +1,54 @@
+inscription : IDN => pseudo nom prénom mail mdp || pseudo nom prenom mail mdp + document à envoyer (upload)
+    appel api dans la bdd, table user -> fonction create
+trajet régulier : stocker ses trajets dans une table à part (ID, départ, arrivée, heure de départ, heure d'arrivée ?)
+    appel api dans la bdd, table userPath => fonction create
+accepter les cgu/rgpd/mentions légales : ajouter un champ dans la table user qui confirme ou non que c'est signé/validé
+    à ajouter simplement dans l'inscription, pas nécessaire de faire un truc à part.
+
+page "mes infos" : récupérer les données de l'utilisateur et les afficher (nom prenom etc)
+    appel api dans la bdd, table user => fonction findOne(id)
+page "mes demandes" : récupérer les demandes de livraison du l'utilisateur
+    appel api dans la bdd, table parcel (colis) => fonction findMany(user_id)
+page "mes livraisons" : récupérer les livraisons effectuées de l'utilisateur
+    appel api dans la bdd, table delivery => fonction findMany(user_id)
+page "ma cagnotte" : récupérer la cagnotte de l'utilisateur
+    appel api dans la bdd, table user => fonction findOne(id)
+page "mes messages" : récupérer dans la table des messages tout les messages de l'utilisateur
+    appel api dans la bdd, table chat => fonction findOne(user_id)
+    
+page demandeur "entrer le n° colis etc" : stocker dans la table demande de livraison l'ID de l'utilisateur, le n° de colis, mes disponibilités, ou me livrer, (si "ou me livrer = autre => adresse, complément d'adresse, CP, Ville), spécificité (Fragile, grand, petit, urgent), indications (???), prix??, donner la procuration au colivreur d'aller récupérer mon colis au bureau de poste.
+    appel api dans la bdd, table user => fonction findOne(id)
+
+page "colivreur" : récupérer les données des adresses de tout les demandeurs de colis proche (???? rgpd)
+    appel api dans la bdd, table parcel => fonction findMany(adresse? Code Postal?)
+page "colivreur" : ajouter un champ dans les demandes de livraisons pour y ajouter qu'un livreur a déjà choisis ce colis (isReserved)
+    à faire lors de la création du model
+page "colivreur" : ajouter un champ dans les demandes de livraisons pour y ajouter qu'un demandeur a accepté qu'un livreur lui livre son colis (isAccepted). => déclenche un email pour notifier la personne que quelqu'un veut la livrer et qu'elle doit accepter.
+    Envoie d'un email via une fonction
+page "colivreur" : table chat à créer avec l'id des 2 personnes et un champ "message" pour les lier aux messages qui seront stocké dedans.
+    appel api dans la bdd, table chat => fonction create + update field(message)
+page "colivreur" : création d'un QRcode de procuration avec des informations dedans (lesquelles?)
+    création de la fonction de génération d'un QRcode et de l'envoie au colivreur
+page "colivreur" : lecture du QRcode par le bureau de la poste pour que le colivreur récupère le colis par procuration
+    rien à faire de ce côté pour nous, c'est le bureau de la poste qui doit pouvoir lire le QRcode
+page "colivreur" : validation de la demande de livraison (on accepte de livrer la personne) + reception d'un code de reception
+    appel api dans la bdd, table delivery => fonction update(field isAccepted)
+page "colivreur" : entrer le code de réception que le demandeur a reçu pour valider la livraison au destinataire
+    appel api dans la bdd, table delivery => fonction update(field isReceptionned)
+
+back-office : pouvoir visionner toutes les inscriptions (requête select * from user)
+    appel api dans la bdd, table user => fonction findMany()
+back-office : pouvoir valider une inscription (sans IDN) => ajouter un champ isCertified
+    appel api dans la bdd, table user => fonction update(field isCertified)
+back-office : pouvoir visionner toutes les demandes de livraisons en cours ainsi que toutes les demandes de livraisons déjà effectuées
+    appel api dans la bdd, table deliveryRequest => fonction findMany()
+back-office : pouvoir gérer les demandes de livraisons (en cours uniquement?)
+    appel api dans la bdd, table deliveryRequest => fonction ???
+back-office : pouvoir gérer le compte d'un utilisateur (mise ON/OFF d'un compte) => création d'un champ isEnabled
+    appel api dans la bdd, table user => fonction update(field isEnabled)
+back-office : pouvoir gérer les cagnottes (quoi faire dedans???)
+    appel api dans la bdd ????
+back-office : pouvoir communiquer avec le SAV (envoie d'email pour la phase d'expérimentation est suffisant)
+    envoie d'un email à la personne chargée du SAV
+back-office : pouvoir regarder des statistiques sur le site (création d'onglet pour les différentes statistiques comme nombre total de demande de livraisons || montant moyen des demandes de livraisons || nombre de livraison par utilisateur => création possible d'un champ pour ne comptabiliser QUE les personnes ayant déjà livrer un colis (isDeliverer) ?)
+    appel api dans la bdd en fonction des stats demandées

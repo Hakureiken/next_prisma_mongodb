@@ -16,12 +16,13 @@ export default async function updateUser(req, res) {
                 nickname: req.body.nickname,
                 password: req.body.password,
                 earning: "soooon",
-                isCertified: true,
-                isAdmin: false,
-                isEnabled: true,
+                isCertified: req.body.isCertified ? true:false,
+                isEnabled: req.body.isEnabled ? true:false,
+                isAdmin: req.body.isAdmin ? true:false,
             },
         })
-        res.json("Success")
+        console.log(req.params);
+        res.json(req.body)
     }
 }
 

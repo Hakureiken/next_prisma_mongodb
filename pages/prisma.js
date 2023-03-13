@@ -35,11 +35,3 @@ main().then(async() => {
     await prisma.$disconnect()
     process.exit(1)
 })
-
-
-
-// export default function Prisma(props) {
-//     return (
-//         <h1>Coucou ici Prisma</h1>
-//     )
-// }

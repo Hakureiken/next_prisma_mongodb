@@ -19,7 +19,6 @@ const apiRoute = nextConnect({
     res.status(405).json({ error: `Method '${req.method}' Not Allowed` });
     console.log(req.method);
   },
-
 });
 
 apiRoute.use(upload.array('theFiles'));

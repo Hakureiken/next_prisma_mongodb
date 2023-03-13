@@ -76,11 +76,38 @@ export default function User(props) {
                         type="password"
                         defaultValue={dataApi.password}
                     />
+                    <Input 
+                        className="input_isCertified"
+                        name="isCertified"
+                        id="input_isCertified"
+                        label="Cochez si vous voulez passer la valeur à 'true' : est certifié"
+                        type="checkbox"
+                        value={true}
+                        checked={dataApi.isCertified}
+                    />
+                    <Input 
+                        className="input_isEnabled"
+                        name="isEnabled"
+                        id="input_isEnabled"
+                        label="Cochez si vous voulez passer la valeur à 'true' : est activé"
+                        type="checkbox"
+                        value={true}
+                        checked={dataApi.isEnabled}
+                    />
+                    <Input 
+                        className="input_isAdmin"
+                        name="isAdmin"
+                        id="input_isAdmin"
+                        label="Cochez si vous voulez passer la valeur à 'true' : est admin"
+                        type="checkbox"
+                        value={true}
+                        checked={dataApi.isAdmin}
+                    />
                     <Input
                         className="input_submit"
                         name="input-submit"
                         id="input-submit"
-                        label="S'inscrire"
+                        label="Modifier"
                         type="submit"
                     />
                 </form>

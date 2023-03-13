@@ -11,6 +11,7 @@ export default function Input(props) {
                 value={props.value} 
                 defaultValue={props.defaultValue}
                 defaultChecked={props.checked ?? false} 
+                onClick={props.onClick}
             />
         </div>
     )

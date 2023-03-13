@@ -12,18 +12,21 @@ model User {
   first_name  String
   last_name String
   nickname String
-  email String
+  email String @unique
   password String
   earning String
   isCertified Boolean
   isEnabled Boolean
   isAdmin Boolean
-  parcel Parcel[]
+  createdAt DateTime
+  updatedAt DateTime
   chatIds String[] @db.ObjectId
   chats Chat[] @relation(fields:[chatIds], references:[id])
 
+  parcel Parcel[]
   userPath UserPath[]
   message Message[]
+  
 }
 
 // Colis
